@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partial/header') %>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    
+    <!-- Loader CSS -->
+    <link rel="stylesheet" href="/loader.css"> <!-- Link to the loader CSS -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card-img-top {
+            width: 100%;
+            height: 400px; 
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 15px;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loader HTML -->
+    <div class="loader" id="loader">
+        <div></div>
+    </div>
+
+    <%- include('partial/nav') %>
+    <div class="container mt-3 row row-cols-1 row-cols-md-2 row-cols-lg-3">
+        <% blogs.forEach(blog => { %>
+            <div class="col">
+                <div class="card" style="width: 100%;">
+                    <img src="<%= blog.coverImageURL %>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= blog.title %></h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="/blog/<%= blog._id %>" class="btn">View</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    
+    <!-- Loader JavaScript -->
+    <script src="/loader.js"></script> <!-- Link to the loader JavaScript -->
+    
+    <%- include('partial/script') %>
+</body>
+</html>

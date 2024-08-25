@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partial/header') %>
+  <title>Blog</title>
+  <!-- Google Fonts link for 'Roboto' -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Arial', Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden; 
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 15px;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      color: #007bff;
+      font-weight: 700;
+    }
+
+    img {
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+      max-width: 100%; /* Ensures the image scales down for mobile */
+      height: auto; /* Maintains aspect ratio */
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+      flex-wrap: wrap; /* Ensures content wraps on smaller screens */
+    }
+
+    .author img {
+      border-radius: 50%;
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+    }
+
+    pre {
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      overflow-wrap: break-word;
+      text-wrap: wrap;
+      overflow-y: auto;
+      max-height: 450px;
+    }
+
+    .comment-section {
+      margin-top: 30px;
+    }
+
+    .comment-form {
+      margin-bottom: 15px;
+    }
+
+    .comment-form input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .comment-form button {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .comment-form button:hover {
+      background-color: #0056b3;
+    }
+
+    .comment {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap; /* Ensures content wraps on smaller screens */
+    }
+
+    .comment img {
+      border-radius: 50%;
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+    }
+
+    .comment pre {
+      margin-left: 10px;
+      background-color: #e9ecef;
+      padding: 8px;
+      border-radius: 5px;
+      font-size: 14px;
+      overflow-wrap: break-word; 
+    }
+
+    /* Responsive Design */
+    @media only screen and (max-width: 768px) {
+      .container {
+        max-width: 100%;
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      pre {
+        font-size: 13px;
+      }
+
+      .author img, .comment img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .author, .comment {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .comment pre {
+        margin-left: 0;
+        margin-top: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include('./partial/nav') %>
+
+  <div class="container mt-4">
+    <h1><%= blog.title %></h1>
+    <img src="<%= blog.coverImageURL %>" width="300px" />
+    <pre class="mt-3"><%= blog.body %></pre>
+  </div>
+  <div class="container mt-4 author">
+    <img src="<%= blog.createdBy.profileImageURL %>" />
+    <%= blog.createdBy.fullName %>
+  </div>
+
+  <div class="container mt-4 comment-section">
+    <h1>Comments (<%= comments.length %>)</h1>
+    <% if (locals.user) { %>
+      <form action="/blog/comment/<%= blog._id %>" method="post" class="comment-form">
+        <div class="mb-3">
+          <input type="text" name="content" class="form-control" placeholder="Enter your comment" />
+        </div>
+        <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+      </form>
+    <% } %>
+        
+    <div class="mt-3">
+      <% comments.forEach(comment => { %>
+      <div class="comment">
+        <img src="<%= comment.createdBy.profileImageURL %>" />
+        <%= comment.createdBy.fullName %>
+        <pre><%= comment.content %></pre>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <%- include('./partial/script') %>
+</body>
+</html>
